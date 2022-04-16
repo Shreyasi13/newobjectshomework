@@ -2,7 +2,8 @@ video= "";
 objects=[]
 status1= "";
 
-    
+var SpeechRecognition = window.webkitSpeechRecognition;
+var recognition = new SpeechRecognition();    
 function setup(){
     canvas= createCanvas(540,340);
     canvas.center();
@@ -11,6 +12,13 @@ function setup(){
   
 }
 finder="";
+function gotResult(error,results){
+    if(error){
+        console.log(error);
+    }
+    console.log(results);
+    objects= results;
+}
 function draw(){
     image(video,0,0,480,380);
     r = random(225)
@@ -23,7 +31,7 @@ objectDetector.detect(video,gotResult);
    for (i=0; i<objects.length; i++){
        document.getElementById("detected").innerHTML= "Status: Objects Detected";
        document.getElementById("number_of_object").innerHTML = "Number of objects detected are:" + objects.length;
-   }
+   
        if (objects[i].label == finder){
            speak()
         textSize(24)
@@ -35,7 +43,7 @@ objectDetector.detect(video,gotResult);
     rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
        } 
     }
-}
+}}
 function start(){
     objectDetector = ml5.objectDetector('cocossd', modelLoaded);
     document.getElementById("detected").innerHTML = "Status: Detecting Objects";
@@ -48,13 +56,7 @@ video.loop();
 video.speed(1);
 video.volume(0);
 }
-function gotResult(error,results){
-    if(error){
-        console.log(error);
-    }
-    console.log(results);
-    objects= results;
-}
+
 function speak(){
     var synth = window.speechSynthesis;
 
