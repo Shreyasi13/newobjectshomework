@@ -16,7 +16,7 @@ function draw(){
     r = random(225)
     g = random(225)
     b= random(225)
-    document.getElementById("object").value = finder;
+    finder=document.getElementById("object").value;
     if(status1 !=""){
 objectDetector.detect(video,gotResult);
 
